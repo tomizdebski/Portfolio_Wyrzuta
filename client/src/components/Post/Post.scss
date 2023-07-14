@@ -1,0 +1,40 @@
+.post{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 8px 8px 52px -6px rgba(66, 68, 90, 1);
+    width: 30vh;
+    border-radius: 5px;
+    padding: 5%;
+    margin-bottom: 50px;
+    
+}
+.image img{
+    width:100%;
+    height: auto;
+}
+
+
+.post div.texts h2{
+    margin:0;
+    font-size: 2rem;
+}
+.post div.texts a{
+    text-decoration:none;
+    color: inherit;
+}
+.post p.info{
+    margin:24px 0;
+    color: #888;
+    font-size:1rem;
+    font-weight: bold;
+    display: flex;
+    gap: 10px;
+}
+.post p.info a.author{
+    color:#333;
+}
+.post p.summary{
+    margin:10px 0;
+    line-height: 1.8rem;
+}

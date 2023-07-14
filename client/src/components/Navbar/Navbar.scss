@@ -1,0 +1,56 @@
+$lightGreen : #b9e7e7;
+
+.navbar{
+
+    .container{
+      
+        padding: 10px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .logo{
+            img{
+                width: 120px;
+            }
+
+        }
+        .links{
+            display: flex;
+            gap: 10px;
+        
+            h6{
+                font-size: 16px;
+                font-weight: bold;
+                color: dimgrey;
+                &:hover{
+                    color: teal;
+                }
+            }
+
+            span{
+                cursor: pointer;
+                align-self: center;
+                font-weight: 400;
+            }
+
+            .give{
+                background-color: $lightGreen;
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                color: teal;
+                border: 1px solid white;
+                &:hover{
+                    color: dimgray;
+                    background-color: white;
+                    border: 1px solid teal;
+                }
+                
+            }
+        }
+    }
+}

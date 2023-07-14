@@ -1,0 +1,35 @@
+.footer {
+    min-height: 40vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 10%;
+    
+  
+    .bottom-line {
+      align-self: center;
+      display: flex;
+      margin-bottom: 12px;
+  
+      &--copy {
+        font-size: 1.2rem;
+      }
+  
+      &--icons {
+        padding-left: 20px;
+  
+        a {
+          img {
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
