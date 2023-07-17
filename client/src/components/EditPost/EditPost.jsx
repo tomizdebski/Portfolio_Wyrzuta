@@ -42,24 +42,36 @@ export default function EditPost() {
     }
   }
 
+  async function handleDelete() {
+    const response = await fetch('http://localhost:4000/post/'+id, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+    
+  }
+
   if (redirect) {
     return <Navigate to={'/post/'+id} />
   }
 
   return (
-    <form className="form-edit" onSubmit={updatePost}>
-      <input className="form-edit__item" type="title"
-             placeholder={'Title'}
-             value={title}
-             onChange={ev => setTitle(ev.target.value)} />
-      <input className="form-edit__item" type="summary"
-             placeholder={'Summary'}
-             value={summary}
-             onChange={ev => setSummary(ev.target.value)} />
-      <input className="form-edit__item" type="file"
-             onChange={ev => setFiles(ev.target.files)} />
-      <Editor onChange={setContent} value={content} />
-      <button className="form-edit__item" style={{marginTop:'5px'}}>Update post</button>
-    </form>
+
+    <>
+      <form className="form-edit" onSubmit={updatePost}>
+        <input className="form-edit__item" type="title"
+              placeholder={'Title'}
+              value={title}
+              onChange={ev => setTitle(ev.target.value)} />
+        <input className="form-edit__item" type="summary"
+              placeholder={'Summary'}
+              value={summary}
+              onChange={ev => setSummary(ev.target.value)} />
+        <input className="form-edit__item" type="file"
+              onChange={ev => setFiles(ev.target.files)} />
+        <Editor onChange={setContent} value={content} />
+        <button className="form-edit__item" style={{marginTop:'5px'}}>Edycja</button>
+      </form>
+      <button className="form-edit__item" style={{marginTop:'5px'}} onClick={handleDelete}>Kasuj</button>
+  </>
   );
 }

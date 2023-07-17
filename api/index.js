@@ -24,12 +24,15 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 mongoose.connect('mongodb+srv://blog:j1JnIMIYMicTPBcz@cluster0.v625jbg.mongodb.net/?retryWrites=true&w=majority');
 
 app.post('/register', async (req,res) => {
-    const {username,password,email} = req.body;
+    const {username,password,email,street,city,zip} = req.body;
     try{
       const userDoc = await User.create({
         username,
         password:bcrypt.hashSync(password,salt),
         email,
+        street,
+        city,
+        zip
       });
       res.json(userDoc);
     } catch(e) {
@@ -86,6 +89,7 @@ app.post('/login', async (req,res) => {
         content,
         cover:newPath,
         author:info.id,
+        buyer: null,
       });
       res.json(postDoc);
     });
@@ -136,6 +140,45 @@ app.post('/login', async (req,res) => {
     const {id} = req.params;
     const postDoc = await Post.findById(id).populate('author', ['username']);
     res.json(postDoc);
+  });
+
+  app.put('/buy', async (req,res) => {
+   
+    const {token} = await req.cookies;
+    jwt.verify(token, secret, {}, async (err,info) => {
+     
+      const {_id, author, title, summary, content} = await req.body;
+      const filter = { _id };
+      const update = { buyer: info.id };
+      const doc = await Post.findOneAndUpdate(filter, update, {
+        new: true
+      });
+      await res.json(`${doc} ${info.id}`);
+    });
+  });
+
+  app.get('/my-orders', async (req,res)=> {
+    const {token} = await req.cookies;
+    jwt.verify(token, secret, {}, async (err,info) => {
+      if (err) throw err;
+      const doc = await Post.find({buyer: info.id});
+      await res.json(doc);
+    });
   })
+
+  
+  app.delete('/post/:id', async (req,res) => {
+  
+    const {id} = req.params;
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err,info) => {
+      if (err) throw err;
+      const postDoc = await Post.find({_id:id}).findOneAndRemove().exec();
+      
+      res.json("skasowano");
+    });
+  
+  });
+
   
   app.listen(4000);

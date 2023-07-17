@@ -7,6 +7,7 @@ const PostSchema = new Schema({
   content:String,
   cover:String,
   author:{type:Schema.Types.ObjectId, ref:'User'},
+  buyer:{type:Schema.Types.ObjectId, ref:'User'},
 }, {
   timestamps: true,
 });

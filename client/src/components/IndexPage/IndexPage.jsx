@@ -5,11 +5,12 @@ import {useEffect, useState} from "react";
 
 export default function IndexPage() {
   const [posts,setPosts] = useState([]);
+  console.log(posts);
   useEffect(() => {
     fetch('http://localhost:4000/post').then(response => { // do config.js
       response.json().then(posts => {
         setPosts(posts);
-      });
+      }).catch(err => console.log("pusty wynik"));
     });
   }, []);
 
@@ -26,7 +27,7 @@ export default function IndexPage() {
       </div>
       <div className="container-post">
          {posts.length > 0 && posts.map(post => (
-        <Post {...post} />
+        !post.buyer && <Post key={post._id} {...post} />
         ))}
       </div>
      

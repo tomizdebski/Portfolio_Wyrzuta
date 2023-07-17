@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import './Navbar.scss'
 import {useContext, useEffect, useState} from "react";
 import { UserContext } from '../../UserContext';
-
+import Fab from '@mui/material/Fab';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
 
 
 
@@ -38,11 +39,24 @@ function Navbar() {
             <h6>O co chodzi</h6>
           </Link>
           <Link className='link' to="/info">
+            
             <h6>O nas</h6>
           </Link>
           <Link className='link' to="/contact">
             <h6>Kontakt</h6>
           </Link>
+          
+          {
+            username && (
+              <>
+                <Link className='link' to="/my-orders">
+                  <h6>Koszyk</h6>
+                </Link>
+              </>
+            )
+          }
+          
+          
           
           {username && (
             <>

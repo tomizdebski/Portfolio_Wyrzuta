@@ -12,6 +12,9 @@ import CreatePost from './components/CreatePost/CreatePost';
 import HowTo from './components/HowTo/HowTo';
 import EditPost from './components/EditPost/EditPost';
 import PostPage from './components/PostPage/PostPage';
+import MyOrder from './components/MyOrder/MyOrder';
+
+
 
 
 function App() {
@@ -31,6 +34,7 @@ function App() {
               <Route path="/give" element={<CreatePost />} />
               <Route path="/info" element={<Info />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/my-orders" element={<MyOrder />} />
             </Route>
           </Routes>
         </UserContextProvider>
