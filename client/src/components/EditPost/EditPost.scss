@@ -1,21 +1,33 @@
 .form-edit{
-    background-color: rgba(57,231,236,0.3);
-   border-radius: 10px;
     max-width: 100%;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 5px;
     align-items: stretch;
     padding: 20px;
+    
 
 
     &__item {
         padding: 10px;
         border: none;
-        border-radius: 5px;
-        
+        border-radius: 5px; 
     }
+
+    input[type=file]::file-selector-button {
+        padding:10px;
+        align-self: center;
+        background-color: #b9e7e7;
+        border-radius: 5px;
+        border: none;
+        &:hover {
+            color: teal;
+            background-color: white;
+            border: 1px solid teal;
+        }
+        transition: 1s;
+      }
+
     h1{
         align-self: center;
     }
@@ -30,6 +42,7 @@
             color: teal;
             background-color: white;
             border: 1px solid teal;
+            transition: 1s;
         }
     }
 }

@@ -7,7 +7,7 @@ import './Login.scss'
 
 const loginSchema = Yup.object().shape({
   username: Yup.string().min(2, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
-  password: Yup.string().min(5, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
+  password: Yup.string().min(8, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
 });
 
 export default function Login() {

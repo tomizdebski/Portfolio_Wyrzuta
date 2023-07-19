@@ -10,6 +10,7 @@ export default function EditPost() {
   const [content,setContent] = useState('');
   const [files, setFiles] = useState('');
   const [redirect,setRedirect] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:4000/post/'+id)
@@ -24,22 +25,24 @@ export default function EditPost() {
 
   async function updatePost(ev) {
     ev.preventDefault();
-    const data = new FormData();
-    data.set('title', title);
-    data.set('summary', summary);
-    data.set('content', content);
-    data.set('id', id);
-    if (files?.[0]) {
-      data.set('file', files?.[0]);
-    }
-    const response = await fetch('http://localhost:4000/post', {
-      method: 'PUT',
-      body: data,
-      credentials: 'include',
-    });
-    if (response.ok) {
-      setRedirect(true);
-    }
+      if(title && summary && content && files) {
+      const data = new FormData();
+      data.set('title', title);
+      data.set('summary', summary);
+      data.set('content', content);
+      data.set('id', id);
+      if (files?.[0]) {
+        data.set('file', files?.[0]);
+      }
+      const response = await fetch('http://localhost:4000/post', {
+        method: 'PUT',
+        body: data,
+        credentials: 'include',
+      });
+      if (response.ok) {
+        setRedirect(true);
+      }
+    } else setError(true);
   }
 
   async function handleDelete() {
@@ -69,6 +72,7 @@ export default function EditPost() {
         <input className="form-edit__item" type="file"
               onChange={ev => setFiles(ev.target.files)} />
         <Editor onChange={setContent} value={content} />
+        {error ? (<div style={{color: 'red'}} className="login__label">Pola muszą być wypełnione</div>) : null}
         <button className="form-edit__item" style={{marginTop:'5px'}}>Edycja</button>
       </form>
       <button className="form-edit__item" style={{marginTop:'5px'}} onClick={handleDelete}>Kasuj</button>
