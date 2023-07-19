@@ -9,22 +9,118 @@ const jwt = require('jsonwebtoken');
 const cookieParser= require('cookie-parser');
 const multer = require('multer');
 const fs = require('fs');
-
-
-
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const salt = bcrypt.genSaltSync(10);
+const bodyParser = require('body-parser');
+const {body, checkSchema, validationResult} = require('express-validator');
+
 const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 
 app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect('mongodb+srv://blog:j1JnIMIYMicTPBcz@cluster0.v625jbg.mongodb.net/?retryWrites=true&w=majority');
 
-app.post('/register', async (req,res) => {
+const registrationSchema = {
+  username: {
+      notEmpty: true,
+      custom: {
+          options: value => {
+              return User.find({
+                  username: value
+              }).then(user => {
+                  if (user.length > 0) {
+                      return Promise.reject('Username already in use')
+                  }
+              })
+          }
+      }
+  },
+  password: {
+    notEmpty: true,
+    isLength: { options: { min: 8 } },
+    errorMessage: "Password must be greater than 8 ",
+  },
+  email: {
+      notEmpty: true,
+      normalizeEmail: true,
+      custom: {
+          options: value => {
+              return User.find({
+                  email: value
+              }).then(user => {
+                  if (user.length > 0) {
+                      return Promise.reject('Email address already taken')
+                  }
+              })
+          }
+      }
+  },
+  street: {
+    notEmpty: true,
+    errorMessage: "Field cannot be empty",
+  },
+  city: {
+    notEmpty: true,
+    errorMessage: "Field cannot be empty",
+  },
+  zip: {
+    notEmpty: true,
+    errorMessage: "Field cannot be empty",
+  },
+  trim: true,
+  escape: true,
+}
+
+const loginSchema = {
+  username: {
+    notEmpty: true,
+    errorMessage: "Field cannot be empty",
+  },
+  password: {
+      notEmpty: true,
+      errorMessage: "Field cannot be empty",
+  },
+  trim: true,
+  escape: true,
+}
+
+const addPostSchema = {
+  title: {
+    notEmpty: true,
+    errorMessage: "Field cannot be empty",
+  },
+  summary: {
+      notEmpty: true,
+      errorMessage: "Field cannot be empty",
+  },
+  content: {
+    notEmpty: true,
+    errorMessage: "Field cannot be empty",
+  },
+  // file: {
+  //   notEmpty: true,
+  //   errorMessage: "Field cannot be empty",
+  // },
+  trim: true,
+  escape: true,
+}
+
+app.post('/register', checkSchema(registrationSchema), async (req,res) => {
     const {username,password,email,street,city,zip} = req.body;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        });
+    }
+
+
     try{
       const userDoc = await User.create({
         username,
@@ -41,8 +137,16 @@ app.post('/register', async (req,res) => {
     }
   });
 
+app.post('/login', checkSchema(loginSchema), async (req,res) => {
 
-app.post('/login', async (req,res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        });
+    }
+
     const {username,password} = req.body;
     const userDoc = await User.findOne({username});
     const passOk = bcrypt.compareSync(password, userDoc.password);
@@ -72,7 +176,7 @@ app.post('/login', async (req,res) => {
     res.cookie('token', '').json('ok');
   });
   
-  app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
+  app.post('/post', uploadMiddleware.single('file'), checkSchema(addPostSchema), async (req,res) => {
     const {originalname,path} = req.file;
     const parts = originalname.split('.');
     const ext = parts[parts.length - 1];
@@ -80,6 +184,16 @@ app.post('/login', async (req,res) => {
     fs.renameSync(path, newPath);
   
     const {token} = req.cookies;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        });
+    }
+
+
     jwt.verify(token, secret, {}, async (err,info) => {
       if (err) throw err;
       const {title,summary,content} = req.body;

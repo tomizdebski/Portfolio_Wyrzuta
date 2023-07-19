@@ -1,48 +1,70 @@
 import {useContext, useState} from "react";
 import {Navigate} from "react-router-dom";
 import {UserContext} from "../../UserContext";
+import * as Yup from 'yup';
+import { Formik, Field, Form } from "formik";
 import './Login.scss'
 
+const loginSchema = Yup.object().shape({
+  username: Yup.string().min(2, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
+  password: Yup.string().min(5, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
+});
+
 export default function Login() {
-  const [username,setUsername] = useState('');
-  const [password,setPassword] = useState('');
+  
   const [redirect,setRedirect] = useState(false);
   const {setUserInfo} = useContext(UserContext);
   
-  async function login(ev) {
-    ev.preventDefault();
-    const response = await fetch('http://localhost:4000/login', {
-      method: 'POST',
-      body: JSON.stringify({username, password}),
-      headers: {'Content-Type':'application/json'},
-      credentials: 'include',
-    });
-    if (response.ok) {
-      response.json().then(userInfo => {
-        setUserInfo(userInfo);
-        setRedirect(true);
-      });
-    } else {
-      alert('wrong credentials'); // roznicowac kody bledow
-    }
-  }
 
   if (redirect) {
     return <Navigate to={'/'} />
   }
   
   return (
-    <form className="login" onSubmit={login}>
-      <h1>Login</h1>
-      <input  className="login__item" type="text"
-             placeholder="username"
-             value={username}
-             onChange={ev => setUsername(ev.target.value)}/>
-      <input  className="login__item" type="password"
-             placeholder="password"
-             value={password}
-             onChange={ev => setPassword(ev.target.value)}/>
-      <button className="login__item" >Login</button>
-    </form>
+              <div className="login" >
+                <h1>Login</h1>
+                <Formik
+                    initialValues={{
+                    username: '',
+                    password: '',
+                    }}
+                    validationSchema={loginSchema}
+                    onSubmit={async (values) => {
+                    console.log(values);
+
+                    const response = await fetch('http://localhost:4000/login', {
+                      method: 'POST',
+                      body: JSON.stringify(values),
+                      headers: {'Content-Type':'application/json'},
+                      credentials: 'include',
+                    });
+                    if (response.ok) {
+                      response.json().then(userInfo => {
+                        setUserInfo(userInfo);
+                        setRedirect(true);
+                      });
+                    } else {
+                      alert("logowanie nie udane");
+                    }
+                    }}>
+                      {({ errors, touched }) => (
+                      <Form>
+                          <Field name="username" placeholder="nazwa użytkownika" className="login__item"/>
+                          {errors.username && touched.username ? (
+                          <div style={{color: 'red'}} className="login_label">{errors.username}</div>
+                          ) : null}
+                          <Field name="password" type="password" placeholder="hasło" className="login__item"/>
+                          {errors.password && touched.password ? (
+                          <div style={{color: 'red'}} className="login__label">{errors.password}</div>
+                          ) : null}
+                          <button className="login__item" type="submit" >Zatwierdź</button>
+                      </Form>
+                    )} 
+                </Formik>
+
+
+
+      
+              </div>
   )
   }

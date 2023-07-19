@@ -1,5 +1,6 @@
 import Post from "../Post/Post";
 import {useEffect, useState} from "react";
+import './MyOrder.scss'
 
 export default function MyOrder() {
 
@@ -18,12 +19,15 @@ export default function MyOrder() {
 
 
     return (
+        <>
+            <h1>Koszyk</h1>
+            <div className="container-post">
+                {posts.length > 0 && posts.map(post => (
+                <Post key={post._id} {...post} />
+                ))}
+            </div>
+        </>
         
-        <div className="container-post">
-         {posts.length > 0 && posts.map(post => (
-        <Post key={post._id} {...post} />
-        ))}
-      </div>
 
     )
 }

@@ -1,88 +1,94 @@
-import {useState} from "react";
+import React, {useState} from "react";
+import { Formik, Field, Form } from "formik";
+import * as Yup from 'yup';
 import {Navigate} from "react-router-dom";
-import { object, string, number, date, InferType } from 'yup';
 import './Register.scss'
 
-let userSchema = object({
-                          username: string().min(5).required(),
-                          password: string().min(5).required(),
-                          email: string().email(),
-                          street: string().required(),
-                          city: string().required(),
-                          zip: string().required(),
-                        },
-                        { strict: true },
-                        );
+
+const SignupSchema = Yup.object().shape({
+    username: Yup.string().min(2, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
+    password: Yup.string().min(8, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
+    email: Yup.string().email('Błędny email').required('Pole wymagane'),
+    street: Yup.string().min(3, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
+    city: Yup.string().min(2, 'Za krótki!').max(50, 'Za długi!').required('Pole wymagane'),
+    zip: Yup.string().matches(/[0-9]{2}-[0-9]{3}/ , 'To nie jest format kodu').required('Pole wymagane'),
+  });
+ 
+  const Register = () => {
+
+    const [redirect,setRedirect] = useState(false);
 
 
-export default function Register() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [zip, setZip] = useState('');
 
-  const [redirect,setRedirect] = useState(false);
-
-  async function register(e) {
-    e.preventDefault();
-
-    try {
-      const validate = await userSchema.validate({username,password,email,city,street,zip});
-    } catch (error) {
-      console.log(error.type);
-      alert(`Błąd walidacji : ${error.type}`);
+    if (redirect) {
+      return <Navigate to={'/'} />
     }
-    
-    
 
-    const response = await fetch('http://localhost:4000/register', {
-      method: 'POST',
-      body: JSON.stringify({username,password,email,city,street,zip}),
-      headers: {'Content-Type':'application/json'},
-    });
+    return (
+                <div className="register">
+                <h1  >Rejestracja</h1>
+                <Formik
+                    initialValues={{
+                    username: '',
+                    password: '',
+                    email: '',
+                    street: '',
+                    city: '',
+                    zip: '',
+                    }}
+                    validationSchema={SignupSchema}
+                    onSubmit={async (values) => {
+                    console.log(values);
+                    const response = await fetch('http://localhost:4000/register', {
+                    method: 'POST',
+                    body: JSON.stringify(values),
+                    headers: {'Content-Type':'application/json'},
+                  });
        
-    if (response.status === 200) {
-      alert('registration successful');
-      setRedirect(true);
-    } else {
-      alert('registration failed');
+                  if (response.status === 200) {
+                    alert('rejestracja udana');
+                    setRedirect(true);
+                  } else {
+                    alert(`rejestracja nieudana `);
+                   
+                  }
+
+
+                    }}>
+
+                    {({ errors, touched }) => (
+                    <Form>
+                        <Field name="username" placeholder="nazwa urzytkownika" className="register__item"/>
+                        {errors.username && touched.username ? (
+                        <div style={{color: 'red'}} className="register__label">{errors.username}</div>
+                        ) : null}
+                        <Field name="password" type="password" placeholder="hasło" className="register__item"/>
+                        {errors.password && touched.password ? (
+                        <div style={{color: 'red'}} className="register__label">{errors.password}</div>
+                        ) : null}
+                        <Field name="email" placeholder="email" className="register__item"/>
+                        {errors.email && touched.email ? (
+                        <div style={{color: 'red'}} className="register__label">{errors.email}</div>
+                        ) : null}
+                        <Field name="street" placeholder="ulica" className="register__item"/>
+                        {errors.street && touched.street ? (
+                        <div style={{color: 'red'}} className="register__label">{errors.street}</div>
+                        ) : null}
+                        <Field name="city" placeholder="miasto" className="register__item"/>
+                        {errors.city && touched.city ? (
+                        <div style={{color: 'red'}} className="register__label">{errors.city}</div>
+                        ) : null}
+                        <Field name="zip"  placeholder="kod pocztowy" className="register__item"/>
+                        {errors.zip && touched.zip ? (
+                        <div style={{color: 'red'}} className="register__label">{errors.zip}</div>
+                        ) : null}
+                        
+                        <button className="register__item" type="submit" >Zatwierdź</button>
+                    </Form>
+                    )}
+                </Formik>
+                </div>
+            );
     }
-  }
 
-  if (redirect) {
-    return <Navigate to={'/'} />
-  }
-
-  return (
-    <form className="register" onSubmit={register}>
-      <h1>Register</h1>
-      <input required className="register__item" type="text"
-             placeholder="nazwa urzytkownika"
-             value={username}
-             onChange={e => setUsername(e.target.value)}/>
-      <input required className="register__item" type="password"
-             placeholder="hasło"
-             value={password}
-             onChange={e => setPassword(e.target.value)}/>
-       <input required className="register__item" type="email"
-             placeholder="email"
-             value={email}
-             onChange={e => setEmail(e.target.value)}/>
-      <input required className="register__item" type="text"
-             placeholder="ulica"
-             value={street}
-             onChange={e => setStreet(e.target.value)}/>
-      <input required className="register__item" type="text"
-             placeholder="kod pocztowy"
-             value={zip}
-             onChange={e => setZip(e.target.value)}/>
-      <input required className="register__item" type="text"
-             placeholder="miasto"
-             value={city}
-             onChange={e => setCity(e.target.value)}/>
-      <button className="register__item" >Register</button>
-    </form>
-  );
-}
+  export default Register;

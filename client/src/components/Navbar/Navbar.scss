@@ -1,4 +1,6 @@
 $lightGreen : #b9e7e7;
+$font-logo: 'Segoe UI';
+    
 
 .navbar{
 
@@ -8,10 +10,14 @@ $lightGreen : #b9e7e7;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        background:rgba(255,255,255, 0.3);
+        
         .logo{
             img{
                 width: 120px;
+                padding-left: 20px;
             }
+        
 
         }
         .links{
@@ -44,12 +50,16 @@ $lightGreen : #b9e7e7;
                 font-weight: 700;
                 color: teal;
                 border: 1px solid white;
+                margin-right: 20px;
                 &:hover{
                     color: dimgray;
                     background-color: white;
                     border: 1px solid teal;
                 }
                 
+            }
+            .link{
+                padding:5px;
             }
         }
     }
