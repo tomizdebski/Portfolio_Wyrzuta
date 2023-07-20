@@ -30,6 +30,7 @@ function Navbar() {
       <div className="container">
         <Link className="logo" to="/" >
           <img src={Logo} alt="logo" />
+          <h1>wyrzuta.pl</h1>
         </Link>
         <div className="links">
           <Link className='link' to="/">
@@ -69,12 +70,9 @@ function Navbar() {
             </>
           )}
 
-          {!username && (
-            <span>
-              <Link className="link" to="/login">Login</Link>
-              <Link className="link" to="/register">Register</Link>
-            </span>
-          )}
+          {!username && <Link className="link" to="/login"><h6>Login</h6></Link>}
+          {!username && <Link className="link" to="/register"><h6>Register</h6></Link>}
+  
            
         </div>
         

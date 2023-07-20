@@ -271,6 +271,20 @@ app.post('/login', checkSchema(loginSchema), async (req,res) => {
     });
   });
 
+  app.put('/cancel', async (req,res) => {
+   
+    const {token} = await req.cookies;
+    jwt.verify(token, secret, {}, async (err,info) => {
+      const {_id} = await req.body;
+      const filter = { _id };
+      const update = { buyer: null };
+      const doc = await Post.findOneAndUpdate(filter, update, {
+        new: true
+      });
+      await res.json(`${doc} ${info.id}`);
+    });
+  });
+
   app.get('/my-orders', async (req,res)=> {
     const {token} = await req.cookies;
     jwt.verify(token, secret, {}, async (err,info) => {

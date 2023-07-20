@@ -1,21 +1,28 @@
 $lightGreen : #b9e7e7;
-$font-logo: 'Segoe UI';
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Roboto:wght@700&display=swap');
     
 
 .navbar{
 
     .container{
-      
-        padding: 10px 0px;
+        
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
         background:rgba(255,255,255, 0.3);
         
         .logo{
+            display: flex;
+            text-decoration: none;
+            
             img{
                 width: 120px;
-                padding-left: 20px;
+                
+            }
+            h1 {
+                font-family:'Roboto', sans-serif;
+                font-weight: 700;
+                font-size: 2.5rem;
             }
         
 
@@ -50,7 +57,7 @@ $font-logo: 'Segoe UI';
                 font-weight: 700;
                 color: teal;
                 border: 1px solid white;
-                margin-right: 20px;
+               
                 &:hover{
                     color: dimgray;
                     background-color: white;
@@ -58,9 +65,7 @@ $font-logo: 'Segoe UI';
                 }
                 
             }
-            .link{
-                padding:5px;
-            }
+        
         }
     }
 }

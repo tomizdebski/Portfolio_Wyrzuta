@@ -23,7 +23,7 @@ export default function MyOrder() {
             <h1>Koszyk</h1>
             <div className="container-post">
                 {posts.length > 0 && posts.map(post => (
-                <Post key={post._id} {...post} />
+                <Post key={post._id} {...post} remove={true}/>
                 ))}
             </div>
         </>

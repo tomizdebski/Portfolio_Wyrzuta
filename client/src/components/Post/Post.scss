@@ -2,39 +2,58 @@
     display: flex;
     flex-direction: column;
     background:rgba(255,255,255, 0.3);
-    box-shadow: 8px 8px 52px -6px rgba(66, 68, 90, 1);
-    width: 30vh;
+    box-shadow: 2px 2px 10px -6px rgba(66, 68, 90, 1);
+    width: 250px;
+    height: 350px;
     border-radius: 5px;
-    padding: 5%;
-    margin-bottom: 50px;
+    padding: 2%;
+    margin-bottom: 10px;
+
+    .texts{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h2{
+            margin:10px;
+            font-size: 1.2rem;
+            height: 60px;
+            text-align: center;
+        }
+        a{
+            text-decoration:none;
+            color: inherit;
+        }
+        
+    }
+    p.info{
+        color: #888;
+        font-size:1rem;
+        font-weight: bold;
+        display: flex;
+        gap: 10px;
+    }
+    
+    p.info a.author{
+        color:#333;
+    }
+    p.summary{
+        margin:10px 0;
+        line-height: 1.8rem;
+    }
     
 }
 .image img{
     width:100%;
-    height: auto;
+    height: 100%;
 }
 
 
-.post div.texts h2{
-    margin:0;
-    font-size: 2rem;
-}
-.post div.texts a{
-    text-decoration:none;
-    color: inherit;
-}
-.post p.info{
-    margin:24px 0;
-    color: #888;
-    font-size:1rem;
-    font-weight: bold;
-    display: flex;
-    gap: 10px;
-}
-.post p.info a.author{
-    color:#333;
-}
-.post p.summary{
-    margin:10px 0;
-    line-height: 1.8rem;
+
+
+.remove-btn{
+    align-self: center;
+    padding:5px;
+    border-radius: 5px;
+    background-color: gold;
 }

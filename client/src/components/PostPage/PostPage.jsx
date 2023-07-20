@@ -40,11 +40,12 @@ export default function PostPage() {
       });
       const content = await response.json();
       console.log("res", content);
+      setRedirect(true);
   };
 
-  // if (redirect) {
-  //   return <Navigate to={'/'} />
-  // }
+  if (redirect) {
+    return <Navigate to={'/my-orders'} />
+  }
 
   return (
     <div className="post-page">
