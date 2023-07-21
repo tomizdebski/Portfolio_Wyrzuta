@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require("mongoose");
@@ -14,15 +15,15 @@ const salt = bcrypt.genSaltSync(10);
 const bodyParser = require('body-parser');
 const {body, checkSchema, validationResult} = require('express-validator');
 
-const secret = 'asdfe45we45w345wegw345werjktjwertkj';
+const secret = process.env.SECRET;
 
-app.use(cors({credentials:true,origin:'http://localhost:3000'}));
+app.use(cors({credentials:true,origin:process.env.CORS_ACCEPTED}));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-mongoose.connect('mongodb+srv://blog:j1JnIMIYMicTPBcz@cluster0.v625jbg.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect(process.env.MONGO_CONNECT);
 
 const registrationSchema = {
   username: {
@@ -309,4 +310,4 @@ app.post('/login', checkSchema(loginSchema), async (req,res) => {
   });
 
   
-  app.listen(4000);
+  app.listen(process.env.PORT);
