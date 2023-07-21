@@ -1,4 +1,5 @@
 import ReactQuill from "react-quill";
+import './Editor.scss'
 
 
 export default function Editor({value,onChange}) {
@@ -22,7 +23,8 @@ export default function Editor({value,onChange}) {
       value={value}
       theme={'snow'}
       onChange={onChange}
-      modules={modules} />
+      modules={modules} 
+      />
     </div>
   );
 }

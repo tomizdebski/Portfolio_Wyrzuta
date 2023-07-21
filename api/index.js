@@ -150,6 +150,7 @@ app.post('/login', checkSchema(loginSchema), async (req,res) => {
 
     const {username,password} = req.body;
     const userDoc = await User.findOne({username});
+    if (!userDoc) return res.status(400).json('niema takiego użytkownika');
     const passOk = bcrypt.compareSync(password, userDoc.password);
     if (passOk) {
       // logged in

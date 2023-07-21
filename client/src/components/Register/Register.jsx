@@ -58,7 +58,7 @@ const SignupSchema = Yup.object().shape({
 
                     {({ errors, touched }) => (
                     <Form>
-                        <Field name="username" placeholder="nazwa urzytkownika" className="register__item"/>
+                        <Field name="username" placeholder="nazwa użytkownika" className="register__item"/>
                         {errors.username && touched.username ? (
                         <div style={{color: 'red'}} className="register__label">{errors.username}</div>
                         ) : null}

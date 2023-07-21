@@ -2,7 +2,7 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import {useState, useContext, useEffect} from "react";
 import {Navigate} from "react-router-dom";
-import Editor from "../../Editor";
+import Editor from "../Editor/Editor";
 import {UserContext} from "../../UserContext";
 import * as Yup from 'yup';
 import { Formik, Field, Form } from "formik";
@@ -59,9 +59,11 @@ export default function CreatePost() {
              onChange={ev => setSummary(ev.target.value)} />
       <input className="form-add__item file" type="file"
              onChange={ev => setFiles(ev.target.files)} />
-      <Editor className="form-add__editor" value={content} onChange={setContent} />
+      <div className="form-add__container-editor">
+        <Editor className="form-add__editor" value={content} onChange={setContent} />
+      </div>
       {error ? (<div style={{color: 'red'}} className="login__label">Pola muszą być wypełnione</div>) : null}
-      <button className="form-add__item"style={{marginTop:'5px'}}>Create post</button>
+      <button className="form-add__item"style={{marginTop:'5px'}}>Doaj ogłoszenie</button>
     </form>
   );
 }

@@ -1,5 +1,7 @@
 import Post from "../Post/Post";
+import GoogleMaps from "../GoogleMaps/GoogleMaps";
 import './IndexPage.scss'
+
 
 import {useEffect, useState} from "react";
 
@@ -30,6 +32,7 @@ export default function IndexPage() {
         !post.buyer && <Post key={post._id} {...post} />
         ))}
       </div>
+      
      
     </>
   );

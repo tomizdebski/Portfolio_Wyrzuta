@@ -14,6 +14,7 @@ export default function Login() {
   
   const [redirect,setRedirect] = useState(false);
   const {setUserInfo} = useContext(UserContext);
+  const [error, setError] = useState(false);
   
 
   if (redirect) {
@@ -44,11 +45,15 @@ export default function Login() {
                         setRedirect(true);
                       });
                     } else {
-                      alert("logowanie nie udane");
+                      setError(true);
                     }
                     }}>
                       {({ errors, touched }) => (
                       <Form>
+                          {error ? (
+                          <div style={{color: 'red'}} className="login_label">Niepoprawne dane logowania</div>
+                          ) : null}
+
                           <Field name="username" placeholder="nazwa użytkownika" className="login__item"/>
                           {errors.username && touched.username ? (
                           <div style={{color: 'red'}} className="login_label">{errors.username}</div>
