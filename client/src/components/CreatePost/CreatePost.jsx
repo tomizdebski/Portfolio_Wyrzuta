@@ -63,7 +63,7 @@ export default function CreatePost() {
         <Editor className="form-add__editor" value={content} onChange={setContent} />
       </div>
       {error ? (<div style={{color: 'red'}} className="login__label">Pola muszą być wypełnione</div>) : null}
-      <button className="form-add__item"style={{marginTop:'5px'}}>Doaj ogłoszenie</button>
+      <button className="form-add__item"style={{marginTop:'5px'}}>Dodaj</button>
     </form>
   );
 }

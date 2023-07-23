@@ -45,13 +45,7 @@ export default function EditPost() {
     } else setError(true);
   }
 
-  async function handleDelete() {
-    const response = await fetch('http://localhost:4000/post/'+id, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
-    
-  }
+  
 
   if (redirect) {
     return <Navigate to={'/post/'+id} />
@@ -73,9 +67,10 @@ export default function EditPost() {
               onChange={ev => setFiles(ev.target.files)} />
         <Editor onChange={setContent} value={content} />
         {error ? (<div style={{color: 'red'}} className="login__label">Pola muszą być wypełnione</div>) : null}
-        <button className="form-edit__item" style={{marginTop:'5px'}}>Edycja</button>
+        <button type="submit" className="form-edit__item" style={{marginTop:'5px'}} >Edycja</button>
       </form>
-      <button className="form-edit__item" style={{marginTop:'5px'}} onClick={handleDelete}>Kasuj</button>
+      
+      
   </>
   );
 }

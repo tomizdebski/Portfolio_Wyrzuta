@@ -13,7 +13,7 @@ import HowTo from './components/HowTo/HowTo';
 import EditPost from './components/EditPost/EditPost';
 import PostPage from './components/PostPage/PostPage';
 import MyOrder from './components/MyOrder/MyOrder';
-import GoogleMaps from './components/GoogleMaps/GoogleMaps';
+import { GoogleApiWrapper } from 'google-maps-react';
 
 
 
@@ -37,7 +37,7 @@ function App() {
               <Route path="/info" element={<Info />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/my-orders" element={<MyOrder />} />
-              <Route path="/map" element={<GoogleMaps />} />
+              <Route path="/map" element={<GoogleApiWrapper />} />
             </Route>
           </Routes>
         </UserContextProvider>
