@@ -1,6 +1,6 @@
-import React, { Component, useState, useEffect } from 'react';
+import React from 'react';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
-import  {geocodeByAddress,getLatLng} from 'react-places-autocomplete';
+import env from "react-dotenv";
 import './GoogleMaps.scss'
 
 
@@ -32,7 +32,7 @@ export const MapContainer = (props)=>  {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyA4IC9B_JlO67XLKJssaJMFo1WpGXf-PEQ'
+  apiKey: env.API_GOOGLE
 })(MapContainer);
 
 
