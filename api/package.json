@@ -2,6 +2,10 @@
   "name": "api",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts":{
+    "dev": "nodemon index.js",
+    "build": "yarn"
+  },
   "author": "izdebski.dev",
   "license": "no",
   "private": false,
